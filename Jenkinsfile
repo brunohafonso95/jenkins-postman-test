@@ -1,5 +1,7 @@
 pipeline {
-   agent { dockerfile true }
+   agent {  
+       docker { image 'node:9-alpine' }
+    }
     stages {
        stage('#1 Git') {
             steps {
