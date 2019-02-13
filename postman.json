@@ -1,0 +1,4388 @@
+{
+	"info": {
+		"_postman_id": "c2cb3581-7af8-4d62-b64a-88d1ee7f66c4",
+		"name": "POC TESTES EM API",
+		"description": "POC de testes automatizados em APIs utilizando Postman, no seguinte estudo de caso utilizamos uma API desenvolvida em DJANGO com o objetivo de mostrar a utilização da ferramenta bem como exemplificar a criação de casos de testes em API's de forma que possamos realizar testes regressivos nas mesmas de forma automatizada.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Projetos",
+			"item": [
+				{
+					"name": "Listar todos os projetos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0141c61b-34c2-4a94-b419-f1d0bd195383",
+								"exec": [
+									"",
+									"tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json  ",
+									"",
+									"",
+									"// validando statusCode",
+									"tests[`Status da requisição correto - 200`] = pm.response.to.have.status(200)",
+									"",
+									"// chamando a função global criada",
+									"eval(pm.variables.get('testesBasicos'))",
+									"",
+									"// carregando schema da model",
+									"const projetoSchema = JSON.parse(pm.variables.get('projetoSchema'));",
+									"// armazenando o primeiro valor da resposta numa variavel",
+									"const response = JSON.parse(responseBody);",
+									"",
+									"// validando se a resposta segue a model corretamente",
+									"tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(response, projetoSchema)",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Projeto/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Projeto",
+								""
+							]
+						},
+						"description": "Requisição que retorna uma lista(array) todos os projetos cadastrados."
+					},
+					"response": [
+						{
+							"name": "GET: Projetos",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/Projeto/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"Projeto",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 13 Dec 2018 16:27:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "73"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"nome\": \"Projeto Teste\"\n    },\n    {\n        \"id\": 2,\n        \"nome\": \"Projeto Teste2\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Buscar um projeto por um Id inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a6c29d0-715b-489d-87eb-ce5e7ae5b495",
+								"exec": [
+									"pm.test('Restornar um objeto com a mensagem - Não encontrado.', () => {",
+									"    tests['Status da requisição correto - 404'] = pm.response.to.have.status(404)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    pm.expect(response.detail).to.eql('Não encontrado.')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Projeto/10/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Projeto",
+								"10",
+								""
+							]
+						},
+						"description": "Buscando um projeto através de um Id inexistente."
+					},
+					"response": [
+						{
+							"name": "Projeto por Id inexistente",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Projeto/10/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Projeto",
+										"10",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 13:10:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar um projeto por Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a6c29d0-715b-489d-87eb-ce5e7ae5b495",
+								"exec": [
+									"pm.test('Restornar um único resultado com base no Id informado na url', () => {",
+									"    tests['Status da requisição correto - 200'] = pm.response.to.have.status(200)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    const projetoSchema = JSON.parse(pm.variables.get('projetoSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(response, projetoSchema)",
+									"    tests['O Id do registro retornado é - 1'] = pm.expect(response.id).to.eql(1)",
+									"    tests['O nome do projeto retornado é - Projeto Teste'] = pm.expect(response.nome).to.eql('Projeto Teste')",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Projeto/1/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Projeto",
+								"1",
+								""
+							]
+						},
+						"description": "Retorna um determinado projeto através do Id passado como parâmetro na URL."
+					},
+					"response": [
+						{
+							"name": "GET: projeto por Id Inexistente.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/Projeto/10/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"Projeto",
+										"10",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 13 Dec 2018 17:04:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						},
+						{
+							"name": "GET: projeto por Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/Projeto/1/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"Projeto",
+										"1",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 13 Dec 2018 16:45:44 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "31"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"nome\": \"Projeto Teste\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar Novo Projeto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a245da2d-fe71-4df3-936a-ccc95a92d85c",
+								"exec": [
+									"pm.test('Retornar o projeto cadastrado e o status 201', () => {",
+									"    tests['Status da requisição correto - 201'] = pm.response.to.have.status(201)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const projetoSchema = JSON.parse(pm.variables.get('projetoSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(JSON.parse(pm.response.text()), projetoSchema)",
+									"    tests['Requisição retorna com o projeto cadastrado - Novo Projeto Teste'] = pm.expect(JSON.parse(pm.response.text()).nome).to.eql('Novo Projeto Teste')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nome\": \"Novo Projeto Teste\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Projeto/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Projeto",
+								""
+							]
+						},
+						"description": "Cadastrando um novo projeto."
+					},
+					"response": [
+						{
+							"name": "Cadastrar Novo Projeto com dados faltando/inválidos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/Projeto/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"Projeto",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 13 Dec 2018 17:25:15 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "40"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nome\": [\n        \"Este campo é obrigatório.\"\n    ]\n}"
+						},
+						{
+							"name": "Cadastrar Novo Projeto",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"nome\": \"Novo Projeto Teste\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/Projeto/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"Projeto",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 13 Dec 2018 17:21:32 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 10,\n    \"nome\": \"Novo Projeto Teste\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar Novo Projeto com dados faltando/inválidos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a245da2d-fe71-4df3-936a-ccc95a92d85c",
+								"exec": [
+									"pm.test('Retornar mensagem informando quais dados estão inválidos e o código 400', () => {",
+									"    tests['Status da requisição correto - 400'] = pm.response.to.have.status(400)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    tests['Requisição retorna objeto com o texto - Este campo não pode ser em branco.'] = pm.expect(JSON.parse(pm.response.text()).nome[0]).to.eql('Este campo não pode ser em branco.')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nome\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Projeto/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Projeto",
+								""
+							]
+						},
+						"description": "Ao tentar cadastrar um novo projeto com dados faltando ou inválidos, é retornada uma mensagem de validação dos campos."
+					},
+					"response": [
+						{
+							"name": "Cadastrar Novo Projeto com dados faltando/inválidos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"nome\": \"\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/Projeto/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"Projeto",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 13 Dec 2018 17:30:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nome\": [\n        \"Este campo não pode ser em branco.\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar projeto por Id inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "df5a534d-9db0-4ff4-aa80-b2ee58ba92cf",
+								"exec": [
+									"pm.test('Deletar um projeto através de um Id inexistente', () => {",
+									"    tests[`Status da requisição correto - 404`] = pm.response.to.have.status(404)",
+									"    tests['Retorno com body'] = pm.response.to.be.withBody",
+									"    const response = JSON.parse(pm.response.text())",
+									"    tests['Mensagem informando que registro não existe'] = pm.expect(response.detail).to.eql('Não encontrado.')",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Projeto/100/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Projeto",
+								"100",
+								""
+							]
+						},
+						"description": "Tentativa de deletar um projeto através de um Id que não existe nos projetos cadastrados."
+					},
+					"response": [
+						{
+							"name": "Deletar projeto por Id inexistente",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Projeto/100/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Projeto",
+										"100",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 19 Dec 2018 20:15:51 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar projeto por Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "28fa1b13-4fc9-4445-bc2f-6b88a7294dde",
+								"exec": [
+									"pm.test('Deletar um projeto através do Id passado', () => {",
+									"    tests[`Status da requisição correto - 204`] = pm.response.to.have.status(204)",
+									"    tests['Retorno sem body'] = pm.response.to.not.be.withBody",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b89669fa-ffda-45ec-811c-94150e49bbf5",
+								"exec": [
+									"// atualizando id de forma dinamica",
+									"pm.sendRequest(`${pm.variables.get('baseUrl')}/api/Projeto/`, (err, response) => {",
+									"    const res = response.json()",
+									"    pm.environment.set(\"id\", res[res.length - 1].id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Projeto/{{id}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Projeto",
+								"{{id}}",
+								""
+							]
+						},
+						"description": "Deletando um projeto através do Id passado na URL."
+					},
+					"response": [
+						{
+							"name": "Deletar projeto por Id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Projeto/{{id}}/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Projeto",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 19 Dec 2018 20:02:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Deletar projeto por Id inexistente",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Projeto/100/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Projeto",
+										"100",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 19 Dec 2018 20:03:16 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Collection responsável por comportar todos os casos de testes relacionados ao CRUD de projetos.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "370c7975-e76a-4f6f-bdd7-48d18ac6126a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6c3c959e-b7a3-492a-b62b-e0e8fa1f91f3",
+						"type": "text/javascript",
+						"exec": [
+							"console.log('Projetos Testes')"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Steps",
+			"item": [
+				{
+					"name": "Listar Todos os steps",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "549b5e1c-24fd-417a-99c2-f5d931dcd92d",
+								"exec": [
+									"pm.test('Retornar um array de objetos do tipo step', () => {",
+									"    tests['Status da requisição correto - 200'] = pm.response.to.have.status(200)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    const stepSchema = JSON.parse(pm.variables.get('stepSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(response, stepSchema)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Step/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Step",
+								""
+							]
+						},
+						"description": "Retorna todos os steps cadastrados."
+					},
+					"response": [
+						{
+							"name": "Todos os steps",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Step/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Step",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 19 Dec 2018 20:39:23 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "232"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"chave\": \"Dado\",\n        \"descricao\": \"Que estou na pagina do Google\",\n        \"actions\": \"plau\"\n    },\n    {\n        \"id\": 2,\n        \"chave\": \"Quando\",\n        \"descricao\": \"Pesquiso algo\",\n        \"actions\": \"plau\"\n    },\n    {\n        \"id\": 3,\n        \"chave\": \"Entao\",\n        \"descricao\": \"resultado esperado\",\n        \"actions\": \"plau\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Buscar Step por Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5791564b-0a6b-4148-b1a6-0bc5aeaa5b53",
+								"exec": [
+									"pm.test('Restornar um único resultado com base no Id informado na url', () => {",
+									"    tests['Status da requisição correto - 200'] = pm.response.to.have.status(200)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    const stepSchema = JSON.parse(pm.variables.get('stepSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(response, stepSchema)",
+									"    tests['O Id do registro retornado é - 1'] = pm.expect(response.id).to.eql(1)",
+									"    tests['O nome do projeto retornado é - Que estou na pagina do Google'] = pm.expect(response.descricao).to.eql('Que estou na pagina do Google')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Step/1/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Step",
+								"1",
+								""
+							]
+						},
+						"description": "retorna um determinado step através do Id passado como parâmetro."
+					},
+					"response": [
+						{
+							"name": "Step por Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Step/1/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Step",
+										"1",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 19 Dec 2018 20:40:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"chave\": \"Dado\",\n    \"descricao\": \"Que estou na pagina do Google\",\n    \"actions\": \"plau\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar step por Id inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d607412f-e13f-457a-9542-3a9bbc860dbb",
+								"exec": [
+									"pm.test('Restornar um objeto com a mensagem - Não encontrado.', () => {",
+									"    tests['Status da requisição correto - 404'] = pm.response.to.have.status(404)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    pm.expect(response.detail).to.eql('Não encontrado.')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Projeto/10/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Projeto",
+								"10",
+								""
+							]
+						},
+						"description": "Buscando step através de um Id que não existe nos steps cadastrados."
+					},
+					"response": [
+						{
+							"name": "Step por Id inexistente",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Projeto/10/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Projeto",
+										"10",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 19 Dec 2018 20:40:32 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar novo step com dados validos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "18c02607-2701-438f-a901-084a7876abb1",
+								"exec": [
+									"pm.test('Retornar o projeto cadastrado e o status 201', () => {",
+									"    tests['Status da requisição correto - 201'] = pm.response.to.have.status(201)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const stepSchema = JSON.parse(pm.variables.get('stepSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(JSON.parse(pm.response.text()), stepSchema)",
+									"    tests['Requisição retorna com o step cadastrado - Dado step'] = pm.expect(JSON.parse(pm.response.text()).descricao).to.eql('Dado step')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chave\": \"Dado\",\r\n    \"descricao\": \"Dado step\",\r\n    \"actions\": \"plau\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Step/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Step",
+								""
+							]
+						},
+						"description": "Cadastrando um novo step informando todos os dados de forma válida."
+					},
+					"response": [
+						{
+							"name": "Cadastrar novo step com dados validos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"chave\": \"Dado\",\r\n    \"descricao\": \"Dado step\",\r\n    \"actions\": \"plau\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Step/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Step",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Wed, 19 Dec 2018 20:42:21 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "64"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"chave\": \"Dado\",\n    \"descricao\": \"Dado step\",\n    \"actions\": \"plau\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar novo step com dados faltando/inválidos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d959147d-116d-4e19-a6dd-684b5ec10ce1",
+								"exec": [
+									"pm.test('Retornar mensagem informando quais dados estão inválidos e o código 400', () => {",
+									"    tests['Status da requisição correto - 400'] = pm.response.to.have.status(400)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    tests['Requisição retorna objeto com o texto - Este campo não pode ser nulo.'] = pm.expect(JSON.parse(pm.response.text()).chave[0]).to.eql('Este campo não pode ser nulo.')",
+									"    tests['Requisição retorna objeto com o texto - Este campo não pode ser em branco.'] = pm.expect(JSON.parse(pm.response.text()).descricao[0]).to.eql('Este campo não pode ser em branco.')",
+									"    tests['Requisição retorna objeto com o texto - Este campo é obrigatório.'] = pm.expect(JSON.parse(pm.response.text()).actions[0]).to.eql('Este campo é obrigatório.')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"chave\": null,\r\n    \"descricao\": \"\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Step/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Step",
+								""
+							]
+						},
+						"description": "Tentando criar um novo step com dados inválidos."
+					},
+					"response": [
+						{
+							"name": "Cadastrar novo step com dados faltando/inválidos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"chave\": null,\r\n    \"descricao\": \"\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Step/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Step",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 13:26:11 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"chave\": [\n        \"Este campo não pode ser nulo.\"\n    ],\n    \"descricao\": [\n        \"Este campo não pode ser em branco.\"\n    ],\n    \"actions\": [\n        \"Este campo é obrigatório.\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar step com Id inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "11c86bf3-5b71-44f9-a993-d98180977427",
+								"exec": [
+									"pm.test('Deletar um projeto através de um Id inexistente', () => {",
+									"    tests[`Status da requisição correto - 404`] = pm.response.to.have.status(404)",
+									"    tests['Retorno com body'] = pm.response.to.be.withBody",
+									"    const response = JSON.parse(pm.response.text())",
+									"    tests['Mensagem informando que registro não existe'] = pm.expect(response.detail).to.eql('Não encontrado.')",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Projeto/1000/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Projeto",
+								"1000",
+								""
+							]
+						},
+						"description": "Deletando step com um Id de step não cadastrado."
+					},
+					"response": [
+						{
+							"name": "Deletar step com Id inexistente",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Projeto/1000/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Projeto",
+										"1000",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 13:35:45 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar step por Id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "700a6cac-4754-4d2e-8f6d-5b12a54cc061",
+								"exec": [
+									"// atualizando id de forma dinamica",
+									"pm.sendRequest(`${pm.variables.get('baseUrl')}/api/Step/`, (err, response) => {",
+									"    const res = response.json()",
+									"    pm.environment.set(\"id\", res[res.length - 1].id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "8d485639-1afb-4298-a8ca-950bd2dca908",
+								"exec": [
+									"pm.test('Deletar um projeto através do Id passado', () => {",
+									"    tests[`Status da requisição correto - 204`] = pm.response.to.have.status(204)",
+									"    tests['Retorno sem body'] = pm.response.to.not.be.withBody",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Step/{{id}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Step",
+								"{{id}}",
+								""
+							]
+						},
+						"description": "Deletar step através do Id passado na URL."
+					},
+					"response": [
+						{
+							"name": "Deletar step por Id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Step/7/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Step",
+										"7",
+										""
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 13:42:04 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Collection responsável por comportar todos os casos de testes relacionados ao CRUD de steps.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "00287e67-8296-48f1-9f99-71f49b4585fa",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1568b317-c9c2-4e84-914f-8efc403c60bf",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cenarios",
+			"item": [
+				{
+					"name": "Listar todos os cenarios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "82c9714c-71cb-4785-aacf-a9fca5f8a5d6",
+								"exec": [
+									"pm.test('Retornar um array de objetos do tipo cenario', () => {",
+									"    tests['Status da requisição correto - 200'] = pm.response.to.have.status(200)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    const cenarioSchema = JSON.parse(pm.variables.get('cenarioSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(response, cenarioSchema)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Cenario/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Cenario",
+								""
+							]
+						},
+						"description": "Retorna uma lista(array) com todos os cenarios cadastrados."
+					},
+					"response": [
+						{
+							"name": "Listar todos os cenarios",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Cenario/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Cenario",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 16:48:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "134"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"nome\": \"Pesquisar Teste\",\n        \"funcionalidade\": 1,\n        \"steps\": [\n            3\n        ]\n    },\n    {\n        \"id\": 2,\n        \"nome\": \"Pesquisar testes\",\n        \"funcionalidade\": 1,\n        \"steps\": [\n            2,\n            3\n        ]\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Buscar cenario por Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "38c16f43-76b4-4e39-81fa-1b7841bc4b0d",
+								"exec": [
+									"pm.test('Restornar um único resultado com base no Id informado na url', () => {",
+									"    tests['Status da requisição correto - 200'] = pm.response.to.have.status(200)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    const cenarioSchema = JSON.parse(pm.variables.get('cenarioSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(response, cenarioSchema)",
+									"    tests['O Id do registro retornado é - 13'] = pm.expect(response.id).to.eql(13)",
+									"    tests['O nome do projeto retornado é - Pesquisar Teste'] = pm.expect(response.nome).to.eql('Pesquisar Teste')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Cenario/13/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Cenario",
+								"13",
+								""
+							]
+						},
+						"description": "retorna um cenario com base no Id passado na URL."
+					},
+					"response": [
+						{
+							"name": "Buscar cenario por Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Cenario/1/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Cenario",
+										"1",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 17:28:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "64"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"nome\": \"Pesquisar Teste\",\n    \"funcionalidade\": 1,\n    \"steps\": [\n        3\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar cenario por Id Inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c585cadc-9b34-46af-bf0f-df72e17dae31",
+								"exec": [
+									"pm.test('Restornar um objeto com a mensagem - Não encontrado.', () => {",
+									"    tests['Status da requisição correto - 404'] = pm.response.to.have.status(404)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    pm.expect(response.detail).to.eql('Não encontrado.')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Cenario/1000/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Cenario",
+								"1000",
+								""
+							]
+						},
+						"description": "Requisição de um Id não cadastrado."
+					},
+					"response": [
+						{
+							"name": "Buscar cenario por Id Inexistente",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Cenario/1000/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Cenario",
+										"1000",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 17:30:28 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar novo cenario com dados validos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "230a97f3-4dcf-4f10-bf7d-d7da2ca9a078",
+								"exec": [
+									"pm.test('Retornar o projeto cadastrado e o status 201', () => {",
+									"    tests['Status da requisição correto - 201'] = pm.response.to.have.status(201)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const cenarioSchema = JSON.parse(pm.variables.get('cenarioSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(JSON.parse(pm.response.text()), cenarioSchema)",
+									"    tests['Requisição retorna com o cenario cadastrado - Pesquisar Teste'] = pm.expect(JSON.parse(pm.response.text()).nome).to.eql('Pesquisar Teste')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\r\n        \"nome\": \"Pesquisar Teste\",\r\n        \"funcionalidade\": 2,\r\n        \"steps\": [\r\n            3\r\n        ]\r\n    }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Cenario/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Cenario",
+								""
+							]
+						},
+						"description": "Cadastrando um novo cenario com dados validos."
+					},
+					"response": [
+						{
+							"name": "Cadastrar novo cenario com dados validos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\t{\r\n        \"nome\": \"Pesquisar Teste\",\r\n        \"funcionalidade\": 1,\r\n        \"steps\": [\r\n            3\r\n        ]\r\n    }"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Cenario/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Cenario",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 18:10:11 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "64"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 6,\n    \"nome\": \"Pesquisar Teste\",\n    \"funcionalidade\": 1,\n    \"steps\": [\n        3\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar novo cenario com dados faltando/invalidos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "36aaee2f-dec7-4c5e-af8a-3a82c55de04f",
+								"exec": [
+									"pm.test('Retornar mensagem informando quais dados estão inválidos e o código 400', () => {",
+									"    tests['Status da requisição correto - 400'] = pm.response.to.have.status(400)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    tests['Requisição retorna objeto com o texto - Este campo não pode ser sem branco.'] = pm.expect(JSON.parse(pm.response.text()).nome[0]).to.eql('Este campo não pode ser em branco.')",
+									"    tests['Requisição retorna objeto com o texto - Este campo não pode ser nulo.'] = pm.expect(JSON.parse(pm.response.text()).funcionalidade[0]).to.eql('Este campo não pode ser nulo.')",
+									"    tests['Requisição retorna objeto com o texto - Esta lista não pode estar vazia.'] = pm.expect(JSON.parse(pm.response.text()).steps[0]).to.eql('Esta lista não pode estar vazia.')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"\",\r\n    \"funcionalidade\": null,\r\n    \"steps\": []\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Cenario/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Cenario",
+								""
+							]
+						},
+						"description": "Cadastrar um novo cenario com dados invalidos."
+					},
+					"response": [
+						{
+							"name": "Cadastrar novo cenario com dados faltando/invalidos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"\",\r\n    \"funcionalidade\": null,\r\n    \"steps\": []\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Cenario/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Cenario",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 18:17:11 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nome\": [\n        \"Este campo não pode ser em branco.\"\n    ],\n    \"funcionalidade\": [\n        \"Este campo não pode ser nulo.\"\n    ],\n    \"steps\": [\n        \"Esta lista não pode estar vazia.\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar cenario por Id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f48da6c6-c0ee-41ba-a3d4-15973119dfe3",
+								"exec": [
+									"// atualizando id de forma dinamica",
+									"pm.sendRequest(`${pm.variables.get('baseUrl')}/api/Cenario/`, (err, response) => {",
+									"    const res = response.json()",
+									"    pm.environment.set(\"id\", res[res.length - 1].id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "0000fe41-a024-4199-8f63-fcf46074ad0b",
+								"exec": [
+									"pm.test('Deletar um projeto através do Id passado', () => {",
+									"    tests[`Status da requisição correto - 204`] = pm.response.to.have.status(204)",
+									"    tests['Retorno sem body'] = pm.response.to.not.be.withBody",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Cenario/{{id}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Cenario",
+								"{{id}}",
+								""
+							]
+						},
+						"description": "Deletar um cenario de acordo com Id passado na URL."
+					},
+					"response": [
+						{
+							"name": "Deletar cenario por Id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Cenario/{{id}}/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Cenario",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 17:59:12 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Deletar cenario por Id inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d97f6127-fa20-494e-afa5-6161c904736b",
+								"exec": [
+									"pm.test('Deletar um projeto através de um Id inexistente', () => {",
+									"    tests[`Status da requisição correto - 404`] = pm.response.to.have.status(404)",
+									"    tests['Retorno com body'] = pm.response.to.be.withBody",
+									"    const response = JSON.parse(pm.response.text())",
+									"    tests['Mensagem informando que registro não existe'] = pm.expect(response.detail).to.eql('Não encontrado.')",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Cenario/1000/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Cenario",
+								"1000",
+								""
+							]
+						},
+						"description": "Deletando um cenario através de um Id que não existe."
+					},
+					"response": [
+						{
+							"name": "Deletar cenario por Id inexistente",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Cenario/1000/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Cenario",
+										"1000",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 17:59:40 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Collection responsável por comportar todos os casos de testes relacionados ao CRUD de cenarios.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "80454bd0-2ed1-46ce-8f35-2b9d44afda68",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "2346652b-9a9d-4e58-a3de-e0bab37e1c83",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Planos de teste",
+			"item": [
+				{
+					"name": "LIstar todos os planos de teste",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5904e5ab-15b2-4b67-aa12-edd6491d120e",
+								"exec": [
+									"pm.test('Retornar um array de objetos do tipo cenario', () => {",
+									"    tests['Status da requisição correto - 200'] = pm.response.to.have.status(200)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    const planoDeTesteSchema = JSON.parse(pm.variables.get('planoDeTesteSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(response, planoDeTesteSchema)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/PlanoDeTeste/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PlanoDeTeste",
+								""
+							]
+						},
+						"description": "Requisição que retorna uma lista(array) com todos os planos de teste cadastrados."
+					},
+					"response": [
+						{
+							"name": "LIstar todos os planos de teste",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/PlanoDeTeste/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"PlanoDeTeste",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:07:16 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "91"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"tipo\": \"Manual\",\n        \"projeto\": 1\n    },\n    {\n        \"id\": 2,\n        \"tipo\": \"Teste de Penetração\",\n        \"projeto\": 29\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Buscar plano de teste por Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "27d9a796-c6e8-4039-97a6-3bf007b411a7",
+								"exec": [
+									"pm.test('Restornar um único resultado com base no Id informado na url', () => {",
+									"    tests['Status da requisição correto - 200'] = pm.response.to.have.status(200)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    const planoDeTesteSchema = JSON.parse(pm.variables.get('planoDeTesteSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(response, planoDeTesteSchema)",
+									"    tests['O Id do registro retornado é - 1'] = pm.expect(response.id).to.eql(1)",
+									"    tests['O nome do projeto retornado é - Manual'] = pm.expect(response.tipo).to.eql('Manual')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/PlanoDeTeste/1/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PlanoDeTeste",
+								"1",
+								""
+							]
+						},
+						"description": "Buascando um plano de teste pelo Id passado na URL."
+					},
+					"response": [
+						{
+							"name": "Buscar plano de teste por Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/PlanoDeTeste/1/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"PlanoDeTeste",
+										"1",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:15:05 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"tipo\": \"Manual\",\n    \"projeto\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar plano de teste por Id Inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d341514f-b6c9-4c94-9eed-9cc16357cd53",
+								"exec": [
+									"pm.test('Restornar um objeto com a mensagem - Não encontrado.', () => {",
+									"    tests['Status da requisição correto - 404'] = pm.response.to.have.status(404)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    pm.expect(response.detail).to.eql('Não encontrado.')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/PlanoDeTeste/1000/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PlanoDeTeste",
+								"1000",
+								""
+							]
+						},
+						"description": "BUscando um plano de teste através de um Id de um plano de teste inexistente."
+					},
+					"response": [
+						{
+							"name": "Buscar plano de teste por Id Inexistente",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/PlanoDeTeste/1000/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"PlanoDeTeste",
+										"1000",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:21:37 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar novo plano de teste com dados validos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7d29595e-4fbe-435d-88bd-b65140066272",
+								"exec": [
+									"pm.test('Retornar o projeto cadastrado e o status 201', () => {",
+									"    tests['Status da requisição correto - 201'] = pm.response.to.have.status(201)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const planoDeTesteSchema = JSON.parse(pm.variables.get('planoDeTesteSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(JSON.parse(pm.response.text()), planoDeTesteSchema)",
+									"    tests['Requisição retorna com o plano de teste cadastrado - Manual'] = pm.expect(JSON.parse(pm.response.text()).tipo).to.eql('Manual')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipo\": \"Manual\",\r\n    \"projeto\": 1\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/PlanoDeTeste/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PlanoDeTeste",
+								""
+							]
+						},
+						"description": "Cadastrando um novo plano de teste."
+					},
+					"response": [
+						{
+							"name": "Cadastrar novo plano de teste",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"tipo\": \"Manual\",\r\n    \"projeto\": 1\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/PlanoDeTeste/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"PlanoDeTeste",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:31:08 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"tipo\": \"Manual\",\n    \"projeto\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar plano de teste com dados faltando/invalidos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a07e4fc6-e458-4efa-a034-721a8338389f",
+								"exec": [
+									"pm.test('Retornar mensagem informando quais dados estão inválidos e o código 400', () => {",
+									"    tests['Status da requisição correto - 400'] = pm.response.to.have.status(400)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    tests['Requisição retorna objeto com o texto - Este campo não pode ser sem branco.'] = pm.expect(JSON.parse(pm.response.text()).tipo[0]).to.eql('Este campo não pode ser nulo.')",
+									"    tests['Requisição retorna objeto com o texto - Este campo não pode ser nulo.'] = pm.expect(JSON.parse(pm.response.text()).projeto[0]).to.eql('Este campo não pode ser nulo.')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"tipo\": null,\r\n    \"projeto\": null\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/PlanoDeTeste/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PlanoDeTeste",
+								""
+							]
+						},
+						"description": "Cadastrando plano de teste com dados invalidos."
+					},
+					"response": [
+						{
+							"name": "Cadastrar plano de teste com dados faltando/invalidos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"tipo\": null,\r\n    \"projeto\": null\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/PlanoDeTeste/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"PlanoDeTeste",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:36:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "88"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"tipo\": [\n        \"Este campo não pode ser nulo.\"\n    ],\n    \"projeto\": [\n        \"Este campo não pode ser nulo.\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar plano de teste por Id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3484dc39-9626-4da2-988a-06695b379efc",
+								"exec": [
+									"// atualizando id de forma dinamica",
+									"pm.sendRequest(`${pm.variables.get('baseUrl')}/api/PlanoDeTeste/`, (err, response) => {",
+									"    const res = response.json()",
+									"    pm.environment.set(\"id\", res[res.length - 1].id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "aeb77062-46e6-4e9b-aee4-35f49f115b2e",
+								"exec": [
+									"pm.test('Deletar um projeto através do Id passado', () => {",
+									"    tests[`Status da requisição correto - 204`] = pm.response.to.have.status(204)",
+									"    tests['Retorno sem body'] = pm.response.to.not.be.withBody",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/PlanoDeTeste/{{id}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PlanoDeTeste",
+								"{{id}}",
+								""
+							]
+						},
+						"description": "Deletando um plano de teste pelo Id passado cmo parâmetro na URL."
+					},
+					"response": [
+						{
+							"name": "Deletar plano de teste por Id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/PlanoDeTeste/{{id}}/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"PlanoDeTeste",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:25:52 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Deletar plano de teste por Id Inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "73fcf2b0-325e-4d5e-89ef-25b7d4b88205",
+								"exec": [
+									"pm.test('Deletar um projeto através de um Id inexistente', () => {",
+									"    tests[`Status da requisição correto - 404`] = pm.response.to.have.status(404)",
+									"    tests['Retorno com body'] = pm.response.to.be.withBody",
+									"    const response = JSON.parse(pm.response.text())",
+									"    tests['Mensagem informando que registro não existe'] = pm.expect(response.detail).to.eql('Não encontrado.')",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/PlanoDeTeste/1000/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PlanoDeTeste",
+								"1000",
+								""
+							]
+						},
+						"description": "Deletando um plano de teste através de um Id de um plano de teste inexistente."
+					},
+					"response": [
+						{
+							"name": "Deletar plano de teste por Id Inexistente",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/PlanoDeTeste/1000/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"PlanoDeTeste",
+										"1000",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:27:15 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Collection responsável por comportar todos os casos de testes relacionados ao CRUD de planos de teste."
+		},
+		{
+			"name": "Funcionalidades",
+			"item": [
+				{
+					"name": "LIstar todas as funcionalidades",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "01876174-18be-44c5-b6fd-71bdd207db8f",
+								"exec": [
+									"pm.test('Retornar um array de objetos do tipo step', () => {",
+									"    tests['Status da requisição correto - 200'] = pm.response.to.have.status(200)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    const funcionalidadeSchema = JSON.parse(pm.variables.get('funcionalidadeSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(response, funcionalidadeSchema)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Funciolidade/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Funciolidade",
+								""
+							]
+						},
+						"description": "Requisição que retorna uma lista(array) todos as funcionalidades cadastradas."
+					},
+					"response": [
+						{
+							"name": "LIstar todas as funcionalidades",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Funciolidade/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Funciolidade",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:46:09 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "45"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"nome\": \"Google Pesquisa\",\n        \"plano\": 1\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Buscar funcionalidade por Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "91289e68-87ab-413c-825d-eaa0c997bd5a",
+								"exec": [
+									"pm.test('Restornar um único resultado com base no Id informado na url', () => {",
+									"    tests['Status da requisição correto - 200'] = pm.response.to.have.status(200)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    const funcionalidadeSchema = JSON.parse(pm.variables.get('funcionalidadeSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(response, funcionalidadeSchema)",
+									"    tests['O Id do registro retornado é - 2'] = pm.expect(response.id).to.eql(2)",
+									"    tests['O nome do projeto retornado é - teste'] = pm.expect(response.nome).to.eql('teste')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Funciolidade/2/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Funciolidade",
+								"2",
+								""
+							]
+						},
+						"description": "Buscando uma funcinalidade através do Id passado na URL."
+					},
+					"response": [
+						{
+							"name": "BUscar funcionalidade por Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Funciolidade/1/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Funciolidade",
+										"1",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:50:22 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"nome\": \"Google Pesquisa\",\n    \"plano\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar funcionalidade por Id inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3bf585f9-47af-4c98-ae1f-b53dae44cb12",
+								"exec": [
+									"pm.test('Restornar um objeto com a mensagem - Não encontrado.', () => {",
+									"    tests['Status da requisição correto - 404'] = pm.response.to.have.status(404)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const response = JSON.parse(pm.response.text())",
+									"    pm.expect(response.detail).to.eql('Não encontrado.')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Funciolidade/1000/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Funciolidade",
+								"1000",
+								""
+							]
+						},
+						"description": "Buscando uma funcionalidade através de um Id de funcinalidade inexistente."
+					},
+					"response": [
+						{
+							"name": "Buscar funcionalidade por Id inexistente",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Funciolidade/1000/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Funciolidade",
+										"1000",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:53:41 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar uma nova funcionalidade com dados validos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "633fc8f7-ebda-41c7-96e2-119dd6c83035",
+								"exec": [
+									"pm.test('Retornar o projeto cadastrado e o status 201', () => {",
+									"    tests['Status da requisição correto - 201'] = pm.response.to.have.status(201)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    const funcionalidadeSchema = JSON.parse(pm.variables.get('funcionalidadeSchema'))",
+									"    tests[\"Resposta da requisição retornou um objeto válido\"] = tv4.validate(JSON.parse(pm.response.text()), funcionalidadeSchema)",
+									"    tests['Requisição retorna com o plano de teste cadastrado - teste'] = pm.expect(JSON.parse(pm.response.text()).nome).to.eql('teste')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"teste\",\r\n    \"plano\": 1\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Funciolidade/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Funciolidade",
+								""
+							]
+						},
+						"description": "Cadastrando uma nova funcinalidade com dados validos."
+					},
+					"response": [
+						{
+							"name": "Cadastrar uma nova funcionalidade com dados validos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"teste\",\r\n    \"plano\": 1\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Funciolidade/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Funciolidade",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 21:00:37 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "33"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"nome\": \"teste\",\n    \"plano\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar funcionalidade por Id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "125aa8de-7225-4b6f-baa7-082bacd12853",
+								"exec": [
+									"// atualizando id de forma dinamica",
+									"pm.sendRequest(`${pm.variables.get('baseUrl')}/api/Funciolidade/`, (err, response) => {",
+									"    const res = response.json()",
+									"    pm.environment.set(\"id\", res[res.length - 1].id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "806062f6-a64d-4cb9-856d-c3c5571a17cf",
+								"exec": [
+									"pm.test('Deletar um projeto através do Id passado', () => {",
+									"    tests[`Status da requisição correto - 204`] = pm.response.to.have.status(204)",
+									"    tests['Retorno sem body'] = pm.response.to.not.be.withBody",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Funciolidade/{{id}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Funciolidade",
+								"{{id}}",
+								""
+							]
+						},
+						"description": "Deletando uma funcionalidde através do Id passado na URL."
+					},
+					"response": [
+						{
+							"name": "Deletar funcionalidade por Id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Funciolidade/{{id}}/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Funciolidade",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:55:25 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Deletar funcionalidade por Id inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5615111b-a01f-46bb-93e8-cceee3d763f4",
+								"exec": [
+									"pm.test('Deletar um projeto através de um Id inexistente', () => {",
+									"    tests[`Status da requisição correto - 404`] = pm.response.to.have.status(404)",
+									"    tests['Retorno com body'] = pm.response.to.be.withBody",
+									"    const response = JSON.parse(pm.response.text())",
+									"    tests['Mensagem informando que registro não existe'] = pm.expect(response.detail).to.eql('Não encontrado.')",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Funciolidade/1000/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Funciolidade",
+								"1000",
+								""
+							]
+						},
+						"description": "Deletando uma funcionalidade através de Id de uma funcinalidade que não esiste."
+					},
+					"response": [
+						{
+							"name": "Deletar funcionalidade por Id inexistente",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Funciolidade/1000/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Funciolidade",
+										"1000",
+										""
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 20 Dec 2018 20:56:54 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"detail\": \"Não encontrado.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar uma nova funcionalidade com dados faltando.invalidos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "18d61b60-36fc-4584-a7c9-565f62c30670",
+								"exec": [
+									"pm.test('Retornar mensagem informando quais dados estão inválidos e o código 400', () => {",
+									"    tests['Status da requisição correto - 400'] = pm.response.to.have.status(400)",
+									"    tests['Requisição retornou com resposta no body'] = pm.response.to.be.withBody",
+									"    tests['Requisição retornou no formato de JSON'] = pm.response.to.be.json",
+									"    tests['Requisição retorna objeto com o texto - Este campo não pode ser sem branco.'] = pm.expect(JSON.parse(pm.response.text()).nome[0]).to.eql('Este campo não pode ser em branco.')",
+									"    tests['Requisição retorna objeto com o texto - Este campo não pode ser nulo.'] = pm.expect(JSON.parse(pm.response.text()).plano[0]).to.eql('Este campo não pode ser nulo.')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"\",\r\n    \"plano\": null\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/Funciolidade/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"Funciolidade",
+								""
+							]
+						},
+						"description": "Cadastrando um anova funcionalidade com dados invalidos."
+					},
+					"response": [
+						{
+							"name": "Cadastrar uma nova funcionalidade com dados faltando.invalidos",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"\",\r\n    \"plano\": null\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Funciolidade/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Funciolidade",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 21 Dec 2018 13:09:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.6.6"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "91"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"nome\": [\n        \"Este campo não pode ser em branco.\"\n    ],\n    \"plano\": [\n        \"Este campo não pode ser nulo.\"\n    ]\n}"
+						}
+					]
+				}
+			],
+			"description": "Collection responsável por comportar todos os casos de testes relacionados ao CRUD de funcionalidades."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d615c557-ac63-4c75-b7bd-db22d046e769",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "63990409-b317-4fa5-b036-7d9730842fe6",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "cefe016e-c49e-46c3-b7ad-5ce0389d79cd",
+			"key": "projetoSchema",
+			"value": "{\"required\":[\"nome\"],\"properties\":{\"id\":{\"type\":\"integer\",\"minimum\":1},\"nome\":{\"type\":\"string\",\"minLength\":1,\"maxLength\":50}}}",
+			"type": "string"
+		},
+		{
+			"id": "bdb82a06-3fdf-4d15-8a56-e0431b8ed0e6",
+			"key": "stepSchema",
+			"value": "{\n    \"required\": [\n        \"chave\",\n        \"descricao\",\n        \"actions\"\n    ],\n    \"properties\": {\n        \"id\": {\n            \"type\": \"integer\",\n            \"minimum\": 1\n        },\n        \"chave\": {\n            \"type\": \"string\",\n            \"minLength\": 1,\n            \"maxLength\": 50\n        },\n        \"descricao\": {\n            \"type\": \"string\",\n            \"minLength\": 1,\n            \"maxLength\": 50\n        },\n        \"actions\": {\n            \"type\": \"string\"\n        }\n    }\n}",
+			"type": "string"
+		},
+		{
+			"id": "059c932f-b96c-459b-af31-eb0eadbc3ad9",
+			"key": "cenarioSchema",
+			"value": "{\n    \"required\": [\n        \"nome\",\n        \"funcionalidade\",\n        \"steps\"\n    ],\n    \"properties\": {\n        \"id\": {\n            \"type\": \"integer\",\n            \"minimum\": 1\n        },\n        \"nome\": {\n            \"type\": \"string\",\n            \"minLength\": 1,\n            \"maxLength\": 50\n        },\n        \"funcionalidade\": {\n            \"type\": \"integer\",\n            \"minimum\": 1\n        },\n        \"steps\": {\n            \"type\": \"array\"\n        }\n    }\n}",
+			"type": "string"
+		},
+		{
+			"id": "86c75919-2813-43c0-a739-100d55219fb3",
+			"key": "planoDeTesteSchema",
+			"value": "{\n    \"required\": [\n        \"tipo\",\n        \"projeto\"\n    ],\n    \"properties\": {\n        \"id\": {\n            \"type\": \"integer\",\n            \"minimum\": 1\n        },\n        \"tipo\": {\n            \"type\": \"string\",\n            \"minLength\": 1,\n            \"maxLength\": 50\n        },\n        \"projeto\": {\n            \"type\": \"integer\",\n            \"minimum\": 1\n        }\n    }\n}",
+			"type": "string"
+		},
+		{
+			"id": "38270b29-ddb2-4739-8e3e-c356a212294e",
+			"key": "funcionalidadeSchema",
+			"value": "{\n    \"required\": [\n        \"nome\",\n        \"plano\"\n    ],\n    \"properties\": {\n        \"id\": {\n            \"type\": \"integer\",\n            \"minimum\": 1\n        },\n        \"nome\": {\n            \"type\": \"string\",\n            \"minLength\": 1,\n            \"maxLength\": 50\n        },\n        \"plano\": {\n            \"type\": \"integer\",\n            \"minimum\": 1\n        }\n    }\n}",
+			"type": "string"
+		},
+		{
+			"id": "232e8402-1562-4d1f-b6fa-3e6e58b96970",
+			"key": "baseUrl",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"id": "380119a4-aabf-4ade-94ed-a78e7c254f95",
+			"key": "id",
+			"value": "25",
+			"type": "string"
+		}
+	]
+}
