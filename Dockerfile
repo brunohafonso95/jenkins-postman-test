@@ -1,4 +1,4 @@
-FROM mikeallanson/python3-node:0.0.8
+FROM mikeallanson/python3-node:0.0.6
 
 RUN mkdir /app
 WORKDIR /app
